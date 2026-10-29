@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Где искать — Фильмы и Сериалы</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #000000;
+    --bg-card: #111111;
+    --bg-card-hover: #1a1a1a;
+    --border: #222222;
+    --text: #ffffff;
+    --text-muted: #888888;
+    --accent: #ff5c00;
+    --green: #1db954;
+    --green-soft: #1db95420;
+    --yellow: #f5c518;
+    --yellow-soft: #f5c51820;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  /* ШАПКА */
+  .header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+  }
+  .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  
+  /* ЛОГОТИП */
+  .logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .logo-text { font-family: 'Press Start 2P', monospace; font-size: 20px; color: #fff; line-height: 1; }
+  .logo-box { background: var(--accent); color: #000; font-family: 'Press Start 2P', monospace; font-size: 16px; padding: 8px 14px; border-radius: 8px; line-height: 1; }
+
+  .search-box { flex: 1; min-width: 240px; position: relative; }
+  .search-box input {
+    width: 100%; padding: 11px 16px 11px 42px; border-radius: 12px;
+    border: 1px solid var(--border); background: var(--bg-card);
+    color: var(--text); font-size: 15px; outline: none; transition: 0.2s;
+  }
+  .search-box input:focus { border-color: var(--accent); }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+
+  /* ТАБЫ */
+  .tabs { max-width: 1400px; margin: 0 auto; padding: 14px 24px 0; display: flex; gap: 8px; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 8px 18px; border-radius: 100px; border: 1px solid var(--border);
+    background: transparent; color: var(--text-muted); font-size: 14px;
+    cursor: pointer; font-weight: 600; transition: 0.2s;
+  }
+  .tab-btn:hover { border-color: #555; color: var(--text); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ЖАНРЫ */
+  .genres-bar {
+    max-width: 1400px; margin: 0 auto; padding: 14px 24px 0;
+    display: flex; gap: 8px; flex-wrap: wrap; max-height: 120px; overflow-y: auto;
+  }
+  .genre-chip {
+    padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border);
+    background: transparent; color: var(--text-muted); font-size: 13px;
+    cursor: pointer; transition: 0.2s;
+  }
+  .genre-chip:hover { border-color: #555; color: var(--text); }
+  .genre-chip.active { background: var(--text); border-color: var(--text); color: #000; font-weight: 600; }
+
+  /* СЕТКА */
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+  .section-title { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .section-title .count { font-size: 14px; font-weight: 400; color: var(--text-muted); }
+  
+  .support-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); cursor: pointer; transition: 0.2s; }
+  .support-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+  
+  .movie-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; display: flex; flex-direction: column; transition: 0.2s;
+  }
+  .movie-card:hover { transform: translateY(-3px); border-color: #333; background: var(--bg-card-hover); }
+  .card-top { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 10px; }
+  .movie-title { font-size: 16px; font-weight: 700; line-height: 1.2; }
+  .movie-year { color: var(--text-muted); font-size: 13px; white-space: nowrap; padding-top: 2px; }
+  
+  .movie-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .meta-tag { font-size: 12px; color: var(--text-muted); background: #222; padding: 2px 8px; border-radius: 4px; }
+  
+  .badges-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .badge { font-size: 11px; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
+  .badge.free { background: var(--green-soft); color: var(--green); }
+  .badge.sub { background: var(--yellow-soft); color: var(--yellow); }
+
+  .links-block { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
+  .link-row {
+    display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; 
+    border-radius: 6px; background: #000; border: 1px solid var(--border); 
+    text-decoration: none; color: var(--text); font-size: 13px; transition: 0.2s;
+  }
+  .link-row:hover { border-color: #555; }
+  .link-row.free-link { border-color: #1db95440; }
+  .link-row.free-link .service-name { color: var(--green); }
+  .service-type { color: var(--text-muted); font-size: 11px; }
+
+  /* МОДАЛКА */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 460px; width: 100%; }
+  .modal h3 { margin-bottom: 6px; font-size: 18px; }
+  .modal p { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+  .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: #000; color: #fff; font-family: inherit; outline: none; }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+  .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+  .btn { padding: 10px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; flex: 1; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-secondary { background: #333; color: #fff; }
+
+  @media (max-width: 640px) {
+    .movies-grid { grid-template-columns: 1fr; }
+    .logo-text { font-size: 16px; }
+    .logo-box { font-size: 12px; padding: 6px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-text">ГДЕ</span>
+      <span class="logo-box">искать</span>
+    </div>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Поиск фильмов и сериалов...">
+    </div>
+  </div>
+</header>
+
+<div class="tabs" id="tabsBar">
+  <button class="tab-btn active" data-tab="all">Все</button>
+  <button class="tab-btn" data-tab="free">🟢 Бесплатно</button>
+  <button class="tab-btn" data-tab="paid">💰 Платно</button>
+</div>
+
+<div class="genres-bar" id="genresBar"></div>
+
+<main class="container">
+  <div class="section-header">
+    <div class="section-title">
+      <span id="sectionLabel">Все фильмы</span>
+      <span class="count" id="countLabel"></span>
+    </div>
+    <button class="support-btn" id="supportBtn">✉️ Не нашли фильм?</button>
+  </div>
+  <div class="movies-grid" id="moviesGrid"></div>
+</main>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>Сообщить о фильме</h3>
+    <p>Напишите нам, и мы добавим его в базу.</p>
+    <form id="supportForm">
+      <div class="form-group">
+        <label>Название *</label>
+        <input type="text" name="title" required placeholder="Например: Интерстеллар">
+      </div>
+      <div class="form-group">
+        <label>Комментарий</label>
+        <textarea name="comment" rows="3"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="modalCancel">Отмена</button>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// ==========================================
+// ПРАВИЛЬНАЯ БАЗА ДАННЫХ (БЕЗ РАНДОМА)
+// ==========================================
+const DB = [
+  // --- РОССИЙСКИЕ ---
+  { title: "Слово пацана. Кровь на асфальте", year: 2023, country: "Россия", genres: ["драма", "криминал"], free: [], sub: [{name: "Wink", url: "https://wink.ru"}, {name: "START", url: "https://start.ru"}] },
+  { title: "Салют-7", year: 2017, country: "Россия", genres: ["драма", "история", "триллер"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "Фишер", year: 2023, country: "Россия", genres: ["детектив", "триллер", "криминал"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Майор Гром: Чумной Доктор", year: 2021, country: "Россия", genres: ["боевик", "детектив", "приключения"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "Холоп", year: 2019, country: "Россия", genres: ["комедия"], free: [], sub: [{name: "START", url: "https://start.ru"}, {name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Т-34", year: 2019, country: "Россия", genres: ["боевик", "драма", "военный"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "Движение вверх", year: 2017, country: "Россия", genres: ["драма", "спорт"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Wink", url: "https://wink.ru"}] },
+  { title: "Вампиры средней полосы", year: 2021, country: "Россия", genres: ["комедия", "фэнтези", "детектив"], free: [], sub: [{name: "START", url: "https://start.ru"}, {name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  
+  // --- СОВЕТСКИЕ ---
+  { title: "Иван Васильевич меняет профессию", year: 1973, country: "СССР", genres: ["комедия", "фантастика"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Москва слезам не верит", year: 1980, country: "СССР", genres: ["драма", "мелодрама"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Служебный роман", year: 1977, country: "СССР", genres: ["комедия", "мелодрама"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
+  { title: "Кавказская пленница", year: 1966, country: "СССР", genres: ["комедия", "приключения"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
+  
+  // --- АНИМЕ ---
+  { title: "Наруто", year: 2002, country: "Япония", genres: ["аниме", "боевик", "приключения"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Тетрадь смерти", year: 2006, country: "Япония", genres: ["аниме", "триллер", "детектив"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Атака титанов", year: 2013, country: "Япония", genres: ["аниме", "боевик", "фэнтези"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Унесённые призраками", year: 2001, country: "Япония", genres: ["аниме", "фэнтези", "приключения"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Ванпанчмен", year: 2015, country: "Япония", genres: ["аниме", "боевик", "комедия"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+
+  // --- ГОЛЛИВУД (КЛАССИКА И ХИТЫ) ---
+  { title: "Оппенгеймер", year: 2023, country: "США", genres: ["драма", "биография", "история"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Барби", year: 2023, country: "США", genres: ["комедия", "фэнтези", "приключения"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Интерстеллар", year: 2014, country: "США", genres: ["фантастика", "драма", "приключения"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Wink", url: "https://wink.ru"}] },
+  { title: "Джокер", year: 2019, country: "США", genres: ["драма", "триллер", "криминал"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Побег из Шоушенка", year: 1994, country: "США", genres: ["драма", "криминал"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Форрест Гамп", year: 1994, country: "США", genres: ["драма", "мелодрама", "комедия"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "Матрица", year: 1999, country: "США", genres: ["фантастика", "боевик"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Титаник", year: 1997, country: "США", genres: ["драма", "мелодрама", "история"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Джентльмены", year: 2019, country: "Великобритания", genres: ["криминал", "комедия", "боевик"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  
+  // --- СЕРИАЛЫ ---
+  { title: "Игра престолов", year: 2011, country: "США", genres: ["фэнтези", "драма", "боевик"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Во все тяжкие", year: 2008, country: "США", genres: ["драма", "криминал", "триллер"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Шерлок", year: 2010, country: "Великобритания", genres: ["детектив", "драма", "криминал"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "Друзья", year: 1994, country: "США", genres: ["комедия", "мелодрама"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "Очень странные дела", year: 2016, country: "США", genres: ["фантастика", "ужасы", "триллер"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Ведьмак", year: 2019, country: "США", genres: ["фэнтези", "боевик", "драма"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Пацаны", year: 2019, country: "США", genres: ["боевик", "комедия", "фантастика"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Мандалорец", year: 2019, country: "США", genres: ["фантастика", "боевик", "приключения"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Корона", year: 2016, country: "Великобритания", genres: ["драма", "история", "биография"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Чернобыль", year: 2019, country: "США", genres: ["драма", "история", "триллер"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+
+  // --- МУЛЬТФИЛЬМЫ ---
+  { title: "Шрек", year: 2001, country: "США", genres: ["мультфильм", "комедия", "фэнтези"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "Король Лев", year: 1994, country: "США", genres: ["мультфильм", "драма", "семейный"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "История игрушек", year: 1995, country: "США", genres: ["мультфильм", "комедия", "семейный"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Холодное сердце", year: 2013, country: "США", genres: ["мультфильм", "фэнтези", "семейный"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "Тайна Коко", year: 2017, country: "США", genres: ["мультфильм", "фэнтези", "семейный"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] },
+  { title: "Ну, погоди!", year: 1969, country: "СССР", genres: ["мультфильм", "комедия", "семейный"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
+  { title: "Простоквашино", year: 1978, country: "СССР", genres: ["мультфильм", "комедия", "семейный"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
+  { title: "Маша и Медведь", year: 2009, country: "Россия", genres: ["мультфильм", "комедия", "семейный"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}, {name: "Иви", url: "https://ivi.ru"}] }
+];
+
+const PER_PAGE = 30; // Показывать по 30 штук
+let state = { search: "", genre: "all", tab: "all" };
+
+const genresBar = document.getElementById("genresBar");
+const moviesGrid = document.getElementById("moviesGrid");
+const searchInput = document.getElementById("searchInput");
+const sectionLabel = document.getElementById("sectionLabel");
+const countLabel = document.getElementById("countLabel");
+const tabsBar = document.getElementById("tabsBar");
+
+function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+
+// Собираем уникальные жанры
+const allGenres = [...new Set(DB.flatMap(m => m.genres))].sort();
+
+// Рендер кнопок жанров
+genresBar.innerHTML = `<button class="genre-chip active" data-genre="all">Все жанры</button>` + 
+  allGenres.map(g => `<button class="genre-chip" data-genre="${g}">${capitalize(g)}</button>`).join("");
+
+genresBar.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("genre-chip")) return;
+  document.querySelectorAll(".genre-chip").forEach(b => b.classList.remove("active"));
+  e.target.classList.add("active");
+  state.genre = e.target.dataset.genre;
+  render();
+});
+
+function getFiltered() {
+  const q = state.search.toLowerCase().trim();
+  return DB.filter(m => {
+    const matchTitle = m.title.toLowerCase().includes(q);
+    const matchGenre = state.genre === "all" || m.genres.includes(state.genre);
+    let matchTab = true;
+    if (state.tab === "free") matchTab = m.free.length > 0;
+    if (state.tab === "paid") matchTab = m.free.length === 0;
+    return matchTitle && matchGenre && matchTab;
+  });
+}
+
+function render() {
+  const list = getFiltered();
+  
+  if (state.tab === "free") sectionLabel.textContent = "Бесплатные фильмы";
+  else if (state.tab === "paid") sectionLabel.textContent = "Платные фильмы";
+  else if (state.genre !== "all") sectionLabel.textContent = `Жанр: ${capitalize(state.genre)}`;
+  else sectionLabel.textContent = "Все фильмы и сериалы";
+  countLabel.textContent = `(${list.length})`;
+
+  if (list.length === 0) {
+    moviesGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:#888;">Ничего не найдено 😕</div>`;
+    return;
+  }
+
+  moviesGrid.innerHTML = list.map(m => {
+    let badges = "";
+    if (m.free.length) badges += `<span class="badge free">Бесплатно</span>`;
+    if (m.sub.length) badges += `<span class="badge sub">По подписке</span>`;
+
+    let links = [
+      ...m.free.map(s => `<a class="link-row free-link" href="${s.url}" target="_blank"><span class="service-name">${s.name}</span><span class="service-type">бесплатно</span></a>`),
+      ...m.sub.map(s => `<a class="link-row" href="${s.url}" target="_blank"><span class="service-name">${s.name}</span><span class="service-type">подписка</span></a>`)
+    ].join("");
+
+    return `
+      <div class="movie-card">
+        <div class="card-top">
+          <div class="movie-title">${m.title}</div>
+          <div class="movie-year">${m.year}</div>
+        </div>
+        <div class="movie-meta">
+          <span class="meta-tag">${m.country}</span>
+          ${m.genres.slice(0,2).map(g => `<span class="meta-tag">${capitalize(g)}</span>`).join("")}
+        </div>
+        <div class="badges-row">${badges}</div>
+        <div class="links-block">${links}</div>
+      </div>`;
+  }).join("");
+}
+
+searchInput.addEventListener("input", (e) => { state.search = e.target.value; render(); });
+
+tabsBar.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("tab-btn")) return;
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  e.target.classList.add("active");
+  state.tab = e.target.dataset.tab;
+  render();
+});
+
+// Модалка
+const modalOverlay = document.getElementById("modalOverlay");
+document.getElementById("supportBtn").onclick = () => modalOverlay.classList.add("open");
+document.getElementById("modalCancel").onclick = () => modalOverlay.classList.remove("open");
+modalOverlay.onclick = (e) => { if (e.target === modalOverlay) modalOverlay.classList.remove("open"); };
+
+document.getElementById("supportForm").onsubmit = (e) => {
+  e.preventDefault();
+  alert(`Спасибо! Заявка отправлена.`);
+  modalOverlay.classList.remove("open");
+  e.target.reset();
+};
+
+render();
+</script>
+</body>
+</html>
