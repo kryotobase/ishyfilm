@@ -8,119 +8,64 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #000000;
-    --bg-card: #111111;
-    --bg-card-hover: #1a1a1a;
-    --border: #222222;
-    --text: #ffffff;
-    --text-muted: #888888;
-    --accent: #ff5c00;
-    --green: #1db954;
-    --green-soft: #1db95420;
-    --yellow: #f5c518;
-    --yellow-soft: #f5c51820;
+    --bg: #000000; --bg-card: #111111; --bg-card-hover: #1a1a1a;
+    --border: #222222; --text: #ffffff; --text-muted: #888888;
+    --accent: #ff5c00; --green: #1db954; --green-soft: #1db95420;
+    --yellow: #f5c518; --yellow-soft: #f5c51820;
   }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg); color: var(--text);
-    min-height: 100vh; padding-bottom: 60px;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 60px; }
   
-  /* ШАПКА */
-  .header {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border); padding: 14px 24px;
-  }
+  .header { position: sticky; top: 0; z-index: 100; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 14px 24px; }
   .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-  
   .logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   .logo-text { font-family: 'Press Start 2P', monospace; font-size: 20px; color: #fff; line-height: 1; }
   .logo-box { background: var(--accent); color: #000; font-family: 'Press Start 2P', monospace; font-size: 16px; padding: 8px 14px; border-radius: 8px; line-height: 1; }
 
   .search-box { flex: 1; min-width: 240px; position: relative; }
-  .search-box input {
-    width: 100%; padding: 11px 16px 11px 42px; border-radius: 12px;
-    border: 1px solid var(--border); background: var(--bg-card);
-    color: var(--text); font-size: 15px; outline: none; transition: 0.2s;
-  }
+  .search-box input { width: 100%; padding: 11px 16px 11px 42px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); font-size: 15px; outline: none; transition: 0.2s; }
   .search-box input:focus { border-color: var(--accent); }
   .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
 
-  /* КНОПКА КВИЗА */
-  .quiz-banner {
-    max-width: 1400px; margin: 20px auto 0; padding: 0 24px;
-  }
-  .quiz-btn {
-    width: 100%; padding: 16px; background: linear-gradient(90deg, #ff5c00, #ff8c00);
-    border: none; border-radius: 12px; color: #000; font-size: 18px; font-weight: 800;
-    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
+  .quiz-banner { max-width: 1400px; margin: 20px auto 0; padding: 0 24px; }
+  .quiz-btn { width: 100%; padding: 16px; background: linear-gradient(90deg, #ff5c00, #ff8c00); border: none; border-radius: 12px; color: #000; font-size: 18px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s, box-shadow 0.2s; }
   .quiz-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 92, 0, 0.4); }
 
-  /* ТАБЫ И ЖАНРЫ */
   .tabs { max-width: 1400px; margin: 0 auto; padding: 14px 24px 0; display: flex; gap: 8px; flex-wrap: wrap; }
-  .tab-btn {
-    padding: 8px 18px; border-radius: 100px; border: 1px solid var(--border);
-    background: transparent; color: var(--text-muted); font-size: 14px;
-    cursor: pointer; font-weight: 600; transition: 0.2s;
-  }
+  .tab-btn { padding: 8px 18px; border-radius: 100px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 14px; cursor: pointer; font-weight: 600; transition: 0.2s; }
   .tab-btn:hover { border-color: #555; color: var(--text); }
   .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-  .genres-bar {
-    max-width: 1400px; margin: 0 auto; padding: 14px 24px 0;
-    display: flex; gap: 8px; flex-wrap: wrap; max-height: 120px; overflow-y: auto;
-  }
-  .genre-chip {
-    padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border);
-    background: transparent; color: var(--text-muted); font-size: 13px;
-    cursor: pointer; transition: 0.2s;
-  }
+  .genres-bar { max-width: 1400px; margin: 0 auto; padding: 14px 24px 0; display: flex; gap: 8px; flex-wrap: wrap; max-height: 120px; overflow-y: auto; }
+  .genre-chip { padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 13px; cursor: pointer; transition: 0.2s; }
   .genre-chip:hover { border-color: #555; color: var(--text); }
   .genre-chip.active { background: var(--text); border-color: var(--text); color: #000; font-weight: 600; }
 
-  /* СЕТКА */
   .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
   .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
   .section-title { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
   .section-title .count { font-size: 14px; font-weight: 400; color: var(--text-muted); }
-  
   .support-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); cursor: pointer; transition: 0.2s; }
   .support-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
-  
-  .movie-card {
-    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 16px; display: flex; flex-direction: column; transition: 0.2s;
-  }
+  .movie-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; transition: 0.2s; }
   .movie-card:hover { transform: translateY(-3px); border-color: #333; background: var(--bg-card-hover); }
   .card-top { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 10px; }
   .movie-title { font-size: 16px; font-weight: 700; line-height: 1.2; }
   .movie-year { color: var(--text-muted); font-size: 13px; white-space: nowrap; padding-top: 2px; }
-  
   .movie-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .meta-tag { font-size: 12px; color: var(--text-muted); background: #222; padding: 2px 8px; border-radius: 4px; }
-  
   .badges-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
   .badge { font-size: 11px; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
   .badge.free { background: var(--green-soft); color: var(--green); }
   .badge.sub { background: var(--yellow-soft); color: var(--yellow); }
-
   .links-block { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
-  .link-row {
-    display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; 
-    border-radius: 6px; background: #000; border: 1px solid var(--border); 
-    text-decoration: none; color: var(--text); font-size: 13px; transition: 0.2s;
-  }
+  .link-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-radius: 6px; background: #000; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 13px; transition: 0.2s; }
   .link-row:hover { border-color: #555; }
   .link-row.free-link { border-color: #1db95440; }
   .link-row.free-link .service-name { color: var(--green); }
   .service-type { color: var(--text-muted); font-size: 11px; }
 
-  /* МОДАЛКА ПОДДЕРЖКИ */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
   .modal-overlay.open { display: flex; }
   .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 460px; width: 100%; }
@@ -135,54 +80,28 @@
   .btn-primary { background: var(--accent); color: #000; }
   .btn-secondary { background: #333; color: #fff; }
 
-  /* ========================================= */
-  /* СТИЛИ ДЛЯ КВИЗА */
-  /* ========================================= */
-  .quiz-overlay {
-    position: fixed; inset: 0; background: #000; z-index: 2000;
-    display: none; flex-direction: column; align-items: center; justify-content: center;
-    padding: 20px; overflow-y: auto;
-  }
+  /* КВИЗ */
+  .quiz-overlay { position: fixed; inset: 0; background: #000; z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
   .quiz-overlay.open { display: flex; }
-  
-  .quiz-container {
-    width: 100%; max-width: 600px; text-align: center;
-  }
+  .quiz-container { width: 100%; max-width: 600px; text-align: center; }
   .quiz-step { display: none; animation: fadeIn 0.3s ease; }
   .quiz-step.active { display: block; }
-  
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-  .quiz-title { font-size: 24px; font-weight: 800; margin-bottom: 30px; line-height: 1.3; }
-  
+  .quiz-title { font-size: 22px; font-weight: 800; margin-bottom: 24px; line-height: 1.3; }
   .quiz-options { display: flex; flex-direction: column; gap: 12px; }
-  .quiz-option {
-    padding: 16px; background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 12px; color: #fff; font-size: 16px; font-weight: 600;
-    cursor: pointer; transition: 0.2s; text-align: left;
-  }
+  .quiz-option { padding: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; text-align: left; }
   .quiz-option:hover { border-color: var(--accent); background: var(--bg-card-hover); }
-  
-  .quiz-close {
-    position: absolute; top: 20px; right: 20px; background: transparent;
-    border: none; color: #888; font-size: 30px; cursor: pointer;
-  }
-
-  .quiz-result-grid {
-    display: flex; flex-direction: column; gap: 16px; margin-top: 20px;
-    text-align: left;
-  }
-  .quiz-restart {
-    margin-top: 30px; padding: 12px 24px; background: transparent;
-    border: 1px solid var(--border); color: #fff; border-radius: 8px;
-    cursor: pointer; font-size: 14px;
-  }
+  .quiz-close { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: #888; font-size: 30px; cursor: pointer; }
+  .quiz-result-grid { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; text-align: left; }
+  .quiz-restart { margin-top: 30px; padding: 12px 24px; background: transparent; border: 1px solid var(--border); color: #fff; border-radius: 8px; cursor: pointer; font-size: 14px; }
+  .quiz-restart:hover { border-color: var(--accent); }
 
   @media (max-width: 640px) {
     .movies-grid { grid-template-columns: 1fr; }
     .logo-text { font-size: 16px; }
     .logo-box { font-size: 12px; padding: 6px 10px; }
-    .quiz-title { font-size: 20px; }
+    .quiz-title { font-size: 18px; }
+    .quiz-option { font-size: 14px; padding: 12px; }
   }
 </style>
 </head>
@@ -201,7 +120,6 @@
   </div>
 </header>
 
-<!-- Кнопка запуска квиза -->
 <div class="quiz-banner">
   <button class="quiz-btn" id="startQuizBtn">🎲 Подобрать кино на вечер по настроению</button>
 </div>
@@ -225,7 +143,6 @@
   <div class="movies-grid" id="moviesGrid"></div>
 </main>
 
-<!-- МОДАЛКА ПОДДЕРЖКИ -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3>Сообщить о фильме</h3>
@@ -248,13 +165,12 @@
 </div>
 
 <!-- ========================================= -->
-<!-- ИНТЕРФЕЙС КВИЗА -->
+<!-- ОБНОВЛЕННЫЙ ИНТЕРФЕЙС КВИЗА (7 ШАГОВ) -->
 <!-- ========================================= -->
 <div class="quiz-overlay" id="quizOverlay">
   <button class="quiz-close" id="closeQuizBtn">×</button>
   <div class="quiz-container">
     
-    <!-- Шаг 1 -->
     <div class="quiz-step active" id="step1">
       <div class="quiz-title">Какое у тебя сейчас настроение?</div>
       <div class="quiz-options">
@@ -266,15 +182,13 @@
       </div>
     </div>
 
-    <!-- Шаг 2 -->
     <div class="quiz-step" id="step2">
-      <div class="quiz-title" id="q2Title">Почему?</div>
+      <div class="quiz-title" id="q2Title"></div>
       <div class="quiz-options" id="q2Options"></div>
     </div>
 
-    <!-- Шаг 3 -->
     <div class="quiz-step" id="step3">
-      <div class="quiz-title">Что хочешь получить от фильма?</div>
+      <div class="quiz-title">Что ты хочешь получить от фильма?</div>
       <div class="quiz-options">
         <button class="quiz-option" onclick="nextStep(4, 'comedy')">Отвлечься и посмеяться</button>
         <button class="quiz-option" onclick="nextStep(4, 'drama')">Поплакать и выпустить эмоции</button>
@@ -284,31 +198,48 @@
       </div>
     </div>
 
-    <!-- Шаг 4 -->
+    <!-- НОВЫЕ ВОПРОСЫ -->
     <div class="quiz-step" id="step4">
       <div class="quiz-title">С кем смотришь?</div>
       <div class="quiz-options">
-        <button class="quiz-option" onclick="nextStep(5, 'alone')">Один</button>
-        <button class="quiz-option" onclick="nextStep(5, 'couple')">С девушкой/парнем</button>
+        <button class="quiz-option" onclick="nextStep(5, 'alone')">Один/одна</button>
+        <button class="quiz-option" onclick="nextStep(5, 'couple')">С второй половинкой</button>
         <button class="quiz-option" onclick="nextStep(5, 'friends')">С друзьями</button>
-        <button class="quiz-option" onclick="nextStep(5, 'family')">С родителями</button>
+        <button class="quiz-option" onclick="nextStep(5, 'family')">С родителями/семьёй</button>
       </div>
     </div>
 
-    <!-- Шаг 5 -->
     <div class="quiz-step" id="step5">
+      <div class="quiz-title">Какой формат тебе ближе?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="nextStep(6, 'movie')">Полнометражный фильм</button>
+        <button class="quiz-option" onclick="nextStep(6, 'series')">Сериал (на несколько вечеров)</button>
+        <button class="quiz-option" onclick="nextStep(6, 'cartoon')">Мультфильм / Аниме</button>
+      </div>
+    </div>
+
+    <div class="quiz-step" id="step6">
       <div class="quiz-title">Насколько ты устал?</div>
       <div class="quiz-options">
-        <button class="quiz-option" onclick="finishQuiz('light')">Очень, хочу просто фон</button>
-        <button class="quiz-option" onclick="finishQuiz('normal')">Нормально, готов на 2 часа</button>
-        <button class="quiz-option" onclick="finishQuiz('heavy')">Полон сил, готов на всю ночь</button>
+        <button class="quiz-option" onclick="nextStep(7, 'light')">Очень, хочу просто фон</button>
+        <button class="quiz-option" onclick="nextStep(7, 'normal')">Нормально, готов на 2 часа</button>
+        <button class="quiz-option" onclick="nextStep(7, 'heavy')">Полон сил, готов на всю ночь</button>
       </div>
     </div>
 
-    <!-- Результат -->
+    <div class="quiz-step" id="step7">
+      <div class="quiz-title">Есть ли что-то, что ты категорически не хочешь видеть?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="finishQuiz('no_horror')">Никаких ужасов и крови</button>
+        <button class="quiz-option" onclick="finishQuiz('no_drama')">Никаких тяжелых драм (хочу легкое)</button>
+        <button class="quiz-option" onclick="finishQuiz('no_romance')">Без сопливых мелодрам</button>
+        <button class="quiz-option" onclick="finishQuiz('any')">Все равно, лишь бы зашло</button>
+      </div>
+    </div>
+
     <div class="quiz-step" id="stepResult">
       <div class="quiz-title" style="margin-bottom:10px;">Твои фильмы на вечер:</div>
-      <p style="color:#888; margin-bottom:20px;">Мы подобрали 3 варианта под твоё состояние.</p>
+      <p style="color:#888; margin-bottom:20px;">Алгоритм подобрал 3 идеальных варианта.</p>
       <div class="quiz-result-grid" id="quizResultGrid"></div>
       <button class="quiz-restart" onclick="resetQuiz()">Пройти заново</button>
     </div>
@@ -316,44 +247,47 @@
   </div>
 </div>
 
-
 <script>
 // ==========================================
-// БАЗА ДАННЫХ (С РАСШИРЕННЫМИ ЖАНРАМИ)
+// БАЗА ДАННЫХ (ДОПОЛНЕНА)
 // ==========================================
 const DB = [
   // Комедии
-  { title: "Холоп", year: 2019, country: "Россия", genres: ["комедия"], moods: ["sad","happy","angry"], free: [], sub: [{name: "START", url: "https://start.ru"}] },
-  { title: "Джентльмены", year: 2019, country: "Великобритания", genres: ["криминал","комедия"], moods: ["happy","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Друзья", year: 1994, country: "США", genres: ["комедия"], moods: ["sad","anxious"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Холоп", year: 2019, type: "movie", country: "Россия", genres: ["комедия"], moods: ["sad","happy","angry"], free: [], sub: [{name: "START", url: "https://start.ru"}] },
+  { title: "Джентльмены", year: 2019, type: "movie", country: "Великобритания", genres: ["криминал","комедия"], moods: ["happy","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Друзья", year: 1994, type: "series", country: "США", genres: ["комедия"], moods: ["sad","anxious"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Офис", year: 2005, type: "series", country: "США", genres: ["комедия"], moods: ["sad","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
   
   // Драмы
-  { title: "Слово пацана. Кровь на асфальте", year: 2023, country: "Россия", genres: ["драма","криминал"], moods: ["angry","sad"], free: [], sub: [{name: "Wink", url: "https://wink.ru"}] },
-  { title: "Побег из Шоушенка", year: 1994, country: "США", genres: ["драма"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Зелёная миля", year: 1999, country: "США", genres: ["драма","фэнтези"], moods: ["sad"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Слово пацана. Кровь на асфальте", year: 2023, type: "series", country: "Россия", genres: ["драма","криминал"], moods: ["angry","sad"], free: [], sub: [{name: "Wink", url: "https://wink.ru"}] },
+  { title: "Побег из Шоушенка", year: 1994, type: "movie", country: "США", genres: ["драма"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Зелёная миля", year: 1999, type: "movie", country: "США", genres: ["драма","фэнтези"], moods: ["sad"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Форрест Гамп", year: 1994, type: "movie", country: "США", genres: ["драма"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
   
   // Боевики / Триллеры
-  { title: "Джон Уик", year: 2014, country: "США", genres: ["боевик","триллер"], moods: ["angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Т-34", year: 2019, country: "Россия", genres: ["боевик","военный"], moods: ["inspired","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Очень странные дела", year: 2016, country: "США", genres: ["фантастика","ужасы"], moods: ["anxious"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Джон Уик", year: 2014, type: "movie", country: "США", genres: ["боевик","триллер"], moods: ["angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Т-34", year: 2019, type: "movie", country: "Россия", genres: ["боевик","военный"], moods: ["inspired","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Очень странные дела", year: 2016, type: "series", country: "США", genres: ["фантастика","ужасы"], moods: ["anxious"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Матрица", year: 1999, type: "movie", country: "США", genres: ["фантастика","боевик"], moods: ["angry","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
   
   // Романтика / Семейное
-  { title: "Титаник", year: 1997, country: "США", genres: ["мелодрама","драма"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Амели", year: 2001, country: "Франция", genres: ["мелодрама","комедия"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Гарри Поттер", year: 2001, country: "Великобритания", genres: ["фэнтези","семейный"], moods: ["anxious","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Титаник", year: 1997, type: "movie", country: "США", genres: ["мелодрама","драма"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Амели", year: 2001, type: "movie", country: "Франция", genres: ["мелодрама","комедия"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Гарри Поттер", year: 2001, type: "movie", country: "Великобритания", genres: ["фэнтези","семейный"], moods: ["anxious","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
   
   // Аниме / Мультики
-  { title: "Унесённые призраками", year: 2001, country: "Япония", genres: ["аниме","фэнтези"], moods: ["anxious","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Тайна Коко", year: 2017, country: "США", genres: ["мультфильм","семейный"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Шрек", year: 2001, country: "США", genres: ["мультфильм","комедия"], moods: ["sad","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Унесённые призраками", year: 2001, type: "cartoon", country: "Япония", genres: ["аниме","фэнтези"], moods: ["anxious","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Тайна Коко", year: 2017, type: "cartoon", country: "США", genres: ["мультфильм","семейный"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Шрек", year: 2001, type: "cartoon", country: "США", genres: ["мультфильм","комедия"], moods: ["sad","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
+  { title: "Наруто", year: 2002, type: "cartoon", country: "Япония", genres: ["аниме","боевик"], moods: ["inspired","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
   
   // Классика СССР
-  { title: "Иван Васильевич меняет профессию", year: 1973, country: "СССР", genres: ["комедия"], moods: ["sad","anxious"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
-  { title: "Служебный роман", year: 1977, country: "СССР", genres: ["мелодрама","комедия"], moods: ["sad","inspired"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
+  { title: "Иван Васильевич меняет профессию", year: 1973, type: "movie", country: "СССР", genres: ["комедия"], moods: ["sad","anxious"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
+  { title: "Служебный роман", year: 1977, type: "movie", country: "СССР", genres: ["мелодрама","комедия"], moods: ["sad","inspired"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
+  { title: "Ну, погоди!", year: 1969, type: "cartoon", country: "СССР", genres: ["мультфильм","комедия"], moods: ["happy","angry"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
   
   // Фантастика
-  { title: "Интерстеллар", year: 2014, country: "США", genres: ["фантастика","драма"], moods: ["inspired","anxious"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Матрица", year: 1999, country: "США", genres: ["фантастика","боевик"], moods: ["angry","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] }
+  { title: "Интерстеллар", year: 2014, type: "movie", country: "США", genres: ["фантастика","драма"], moods: ["inspired","anxious"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] }
 ];
 
 // ==========================================
@@ -443,38 +377,27 @@ tabsBar.addEventListener("click", (e) => {
 });
 
 // ==========================================
-// ЛОГИКА КВИЗА
+// ЛОГИКА КВИЗА (ОБНОВЛЕНА)
 // ==========================================
-let quizAnswers = { mood: '', reason: '', goal: '', company: '', energy: '' };
+let quizAnswers = { mood: '', reason: '', goal: '', company: '', type: '', energy: '', avoid: '' };
 const quizOverlay = document.getElementById("quizOverlay");
 const q2Options = document.getElementById("q2Options");
 const q2Title = document.getElementById("q2Title");
 
-document.getElementById("startQuizBtn").onclick = () => {
-  quizOverlay.classList.add("open");
-  resetQuiz();
-};
-document.getElementById("closeQuizBtn").onclick = () => {
-  quizOverlay.classList.remove("open");
-};
+document.getElementById("startQuizBtn").onclick = () => { quizOverlay.classList.add("open"); resetQuiz(); };
+document.getElementById("closeQuizBtn").onclick = () => { quizOverlay.classList.remove("open"); };
 
 function nextStep(stepNum, value) {
-  // Записываем ответ в зависимости от шага
-  if (stepNum === 2) {
-    quizAnswers.mood = value;
-    buildStep2(value); // Генерируем 2-й вопрос
-  }
+  if (stepNum === 2) { quizAnswers.mood = value; buildStep2(value); }
   if (stepNum === 4) quizAnswers.goal = value;
   if (stepNum === 5) quizAnswers.company = value;
-  if (stepNum === 6) quizAnswers.reason = value; 
+  if (stepNum === 6) quizAnswers.type = value;
+  if (stepNum === 7) quizAnswers.energy = value;
 
   document.querySelectorAll(".quiz-step").forEach(el => el.classList.remove("active"));
-  if (stepNum <= 5) {
-    document.getElementById("step" + stepNum).classList.add("active");
-  }
+  if (stepNum <= 7) document.getElementById("step" + stepNum).classList.add("active");
 }
 
-// Генерация 2-го вопроса в зависимости от настроения
 function buildStep2(mood) {
   let optionsHTML = "";
   if (mood === 'sad') {
@@ -507,45 +430,66 @@ function buildStep2(mood) {
   document.getElementById("step2").classList.add("active");
 }
 
-// Завершение квиза и показ результатов
-function finishQuiz(energy) {
-  quizAnswers.energy = energy;
+function finishQuiz(avoid) {
+  quizAnswers.avoid = avoid;
   document.querySelectorAll(".quiz-step").forEach(el => el.classList.remove("active"));
   
-  // Логика подбора
-  // В реальности здесь должен быть сложный алгоритм, но пока сделаем базовый скоринг
+  // УМНЫЙ АЛГОРИТМ ПОДБОРА
   let scoredDB = DB.map(movie => {
     let score = 0;
-    // Совпадение по настроению (moods)
-    if (movie.moods && movie.moods.includes(quizAnswers.mood)) score += 5;
     
-    // Совпадение по жанру (goal)
-    if (quizAnswers.goal === 'comedy' && movie.genres.includes('комедия')) score += 3;
-    if (quizAnswers.goal === 'drama' && movie.genres.includes('драма')) score += 3;
-    if (quizAnswers.goal === 'family' && movie.genres.includes('семейный')) score += 3;
-    if (quizAnswers.goal === 'thriller' && movie.genres.includes('триллер')) score += 3;
-    if (quizAnswers.goal === 'blockbuster' && (movie.genres.includes('фантастика') || movie.genres.includes('боевик'))) score += 3;
+    // 1. Настроение
+    if (movie.moods && movie.moods.includes(quizAnswers.mood)) score += 10;
+    
+    // 2. Цель (жанр)
+    if (quizAnswers.goal === 'comedy' && movie.genres.includes('комедия')) score += 5;
+    if (quizAnswers.goal === 'drama' && movie.genres.includes('драма')) score += 5;
+    if (quizAnswers.goal === 'family' && movie.genres.includes('семейный')) score += 5;
+    if (quizAnswers.goal === 'thriller' && (movie.genres.includes('триллер') || movie.genres.includes('ужасы'))) score += 5;
+    if (quizAnswers.goal === 'blockbuster' && (movie.genres.includes('фантастика') || movie.genres.includes('боевик'))) score += 5;
+    
+    // 3. Формат
+    if (quizAnswers.type === 'movie' && movie.type === 'movie') score += 4;
+    if (quizAnswers.type === 'series' && movie.type === 'series') score += 4;
+    if (quizAnswers.type === 'cartoon' && movie.type === 'cartoon') score += 4;
+
+    // 4. Компания
+    if (quizAnswers.company === 'couple' && movie.genres.includes('мелодрама')) score += 3;
+    if (quizAnswers.company === 'family' && movie.genres.includes('семейный')) score += 3;
+
+    // 5. Усталость / Легкость
+    if (quizAnswers.energy === 'light' && (movie.genres.includes('комедия') || movie.genres.includes('мультфильм'))) score += 3;
+    if (quizAnswers.energy === 'heavy' && (movie.genres.includes('драма') || movie.genres.includes('фантастика'))) score += 3;
+
+    // 6. ИСКЛЮЧЕНИЯ (Штрафы)
+    if (quizAnswers.avoid === 'no_horror' && movie.genres.includes('ужасы')) score -= 100;
+    if (quizAnswers.avoid === 'no_drama' && movie.genres.includes('драма')) score -= 50;
+    if (quizAnswers.avoid === 'no_romance' && movie.genres.includes('мелодрама')) score -= 50;
 
     return { ...movie, score };
   });
 
-  // Сортируем по убыванию очков и берем топ-3
+  // Сортируем по убыванию очков, отбрасываем те, у кого сильный минус
+  scoredDB = scoredDB.filter(m => m.score > -50);
   scoredDB.sort((a, b) => b.score - a.score);
   const top3 = scoredDB.slice(0, 3);
 
   const resultGrid = document.getElementById("quizResultGrid");
-  resultGrid.innerHTML = renderCards(top3);
+  if (top3.length === 0) {
+    resultGrid.innerHTML = `<p style="text-align:center;color:#888;">Не удалось подобрать фильм под такие строгие критерии. Попробуй изменить ответы.</p>`;
+  } else {
+    resultGrid.innerHTML = renderCards(top3);
+  }
 
   document.getElementById("stepResult").classList.add("active");
 }
 
 function resetQuiz() {
-  quizAnswers = { mood: '', reason: '', goal: '', company: '', energy: '' };
+  quizAnswers = { mood: '', reason: '', goal: '', company: '', type: '', energy: '', avoid: '' };
   document.querySelectorAll(".quiz-step").forEach(el => el.classList.remove("active"));
   document.getElementById("step1").classList.add("active");
 }
 
-// Старт основного сайта
 render();
 </script>
 </body>
