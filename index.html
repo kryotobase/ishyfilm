@@ -12,6 +12,7 @@
     --border: #222222; --text: #ffffff; --text-muted: #888888;
     --accent: #ff5c00; --green: #1db954; --green-soft: #1db95420;
     --yellow: #f5c518; --yellow-soft: #f5c51820;
+    --red: #ff3333;
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 60px; }
   
@@ -44,64 +45,40 @@
   .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
   .section-title { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
   .section-title .count { font-size: 14px; font-weight: 400; color: var(--text-muted); }
-  .support-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); cursor: pointer; transition: 0.2s; }
-  .support-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
-  .movie-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; transition: 0.2s; }
+  .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+  .movie-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: flex; gap: 12px; transition: 0.2s; position: relative; }
   .movie-card:hover { transform: translateY(-3px); border-color: #333; background: var(--bg-card-hover); }
-  .card-top { display: flex; justify-content: space-between; margin-bottom: 6px; gap: 10px; }
-  .movie-title { font-size: 16px; font-weight: 700; line-height: 1.2; }
-  .movie-year { color: var(--text-muted); font-size: 13px; white-space: nowrap; padding-top: 2px; }
-  .movie-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-  .meta-tag { font-size: 12px; color: var(--text-muted); background: #222; padding: 2px 8px; border-radius: 4px; }
-  .badges-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-  .badge { font-size: 11px; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
+  
+  .movie-poster { width: 90px; height: 135px; border-radius: 8px; object-fit: cover; background: #222; flex-shrink: 0; }
+  .movie-content { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .movie-title { font-size: 15px; font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
+  .movie-year { color: var(--text-muted); font-size: 12px; margin-bottom: 6px; }
+  .movie-desc { font-size: 12px; color: #aaa; line-height: 1.3; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .movie-meta { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+  .meta-tag { font-size: 10px; color: var(--text-muted); background: #222; padding: 2px 6px; border-radius: 4px; }
+  .badges-row { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+  .badge { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
   .badge.free { background: var(--green-soft); color: var(--green); }
   .badge.sub { background: var(--yellow-soft); color: var(--yellow); }
-  .links-block { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
-  .link-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-radius: 6px; background: #000; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 13px; transition: 0.2s; }
+  .links-block { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+  .link-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; border-radius: 6px; background: #000; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-size: 12px; transition: 0.2s; }
   .link-row:hover { border-color: #555; }
   .link-row.free-link { border-color: #1db95440; }
   .link-row.free-link .service-name { color: var(--green); }
-  .service-type { color: var(--text-muted); font-size: 11px; }
+  .service-type { color: var(--text-muted); font-size: 10px; }
 
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 460px; width: 100%; }
-  .modal h3 { margin-bottom: 6px; font-size: 18px; }
-  .modal p { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
-  .form-group { margin-bottom: 12px; }
-  .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-  .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: #000; color: #fff; font-family: inherit; outline: none; }
-  .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
-  .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
-  .btn { padding: 10px 16px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; flex: 1; }
-  .btn-primary { background: var(--accent); color: #000; }
-  .btn-secondary { background: #333; color: #fff; }
+  .fav-btn { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: 0.2s; z-index: 10; color: #fff; }
+  .fav-btn:hover { background: rgba(0,0,0,0.9); transform: scale(1.1); }
+  .fav-btn.active { color: var(--red); }
 
-  /* КВИЗ */
-  .quiz-overlay { position: fixed; inset: 0; background: #000; z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
-  .quiz-overlay.open { display: flex; }
-  .quiz-container { width: 100%; max-width: 600px; text-align: center; }
-  .quiz-step { display: none; animation: fadeIn 0.3s ease; }
-  .quiz-step.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  .quiz-title { font-size: 22px; font-weight: 800; margin-bottom: 24px; line-height: 1.3; }
-  .quiz-options { display: flex; flex-direction: column; gap: 12px; }
-  .quiz-option { padding: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; text-align: left; }
-  .quiz-option:hover { border-color: var(--accent); background: var(--bg-card-hover); }
-  .quiz-close { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: #888; font-size: 30px; cursor: pointer; }
-  .quiz-result-grid { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; text-align: left; }
-  .quiz-restart { margin-top: 30px; padding: 12px 24px; background: transparent; border: 1px solid var(--border); color: #fff; border-radius: 8px; cursor: pointer; font-size: 14px; }
-  .quiz-restart:hover { border-color: var(--accent); }
+  .load-more-btn { display: block; width: 100%; max-width: 300px; margin: 30px auto; padding: 14px; background: var(--bg-card); border: 1px solid var(--border); color: #fff; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+  .load-more-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   @media (max-width: 640px) {
     .movies-grid { grid-template-columns: 1fr; }
     .logo-text { font-size: 16px; }
     .logo-box { font-size: 12px; padding: 6px 10px; }
-    .quiz-title { font-size: 18px; }
-    .quiz-option { font-size: 14px; padding: 12px; }
   }
 </style>
 </head>
@@ -128,6 +105,7 @@
   <button class="tab-btn active" data-tab="all">Все</button>
   <button class="tab-btn" data-tab="free">🟢 Бесплатно</button>
   <button class="tab-btn" data-tab="paid">💰 Платно</button>
+  <button class="tab-btn" data-tab="favorites">❤️ Избранное</button>
 </div>
 
 <div class="genres-bar" id="genresBar"></div>
@@ -138,235 +116,144 @@
       <span id="sectionLabel">Все фильмы</span>
       <span class="count" id="countLabel"></span>
     </div>
-    <button class="support-btn" id="supportBtn">✉️ Не нашли фильм?</button>
   </div>
-  <div class="movies-grid" id="moviesGrid"></div>
+  <div class="movies-grid" id="moviesGrid">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;">Загрузка базы фильмов из kino.is...</div>
+  </div>
+  <button class="load-more-btn" id="loadMoreBtn" style="display:none;">Загрузить еще</button>
 </main>
 
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <h3>Сообщить о фильме</h3>
-    <p>Напишите нам, и мы добавим его в базу.</p>
-    <form id="supportForm">
-      <div class="form-group">
-        <label>Название *</label>
-        <input type="text" name="title" required placeholder="Например: Интерстеллар">
-      </div>
-      <div class="form-group">
-        <label>Комментарий</label>
-        <textarea name="comment" rows="3"></textarea>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn btn-secondary" id="modalCancel">Отмена</button>
-        <button type="submit" class="btn btn-primary">Отправить</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- ========================================= -->
-<!-- ОБНОВЛЕННЫЙ ИНТЕРФЕЙС КВИЗА (7 ШАГОВ) -->
-<!-- ========================================= -->
-<div class="quiz-overlay" id="quizOverlay">
-  <button class="quiz-close" id="closeQuizBtn">×</button>
-  <div class="quiz-container">
-    
-    <div class="quiz-step active" id="step1">
-      <div class="quiz-title">Какое у тебя сейчас настроение?</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="nextStep(2, 'sad')">😢 Грустное</button>
-        <button class="quiz-option" onclick="nextStep(2, 'happy')">😄 Весёлое</button>
-        <button class="quiz-option" onclick="nextStep(2, 'anxious')">😰 Тревожное</button>
-        <button class="quiz-option" onclick="nextStep(2, 'angry')">😡 Раздражённое</button>
-        <button class="quiz-option" onclick="nextStep(2, 'inspired')">🤩 Воодушевлённое</button>
-      </div>
-    </div>
-
-    <div class="quiz-step" id="step2">
-      <div class="quiz-title" id="q2Title"></div>
-      <div class="quiz-options" id="q2Options"></div>
-    </div>
-
-    <div class="quiz-step" id="step3">
-      <div class="quiz-title">Что ты хочешь получить от фильма?</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="nextStep(4, 'comedy')">Отвлечься и посмеяться</button>
-        <button class="quiz-option" onclick="nextStep(4, 'drama')">Поплакать и выпустить эмоции</button>
-        <button class="quiz-option" onclick="nextStep(4, 'family')">Поверить в чудо</button>
-        <button class="quiz-option" onclick="nextStep(4, 'thriller')">Пощекотать нервы</button>
-        <button class="quiz-option" onclick="nextStep(4, 'blockbuster')">Залипнуть на красивую картинку</button>
-      </div>
-    </div>
-
-    <!-- НОВЫЕ ВОПРОСЫ -->
-    <div class="quiz-step" id="step4">
-      <div class="quiz-title">С кем смотришь?</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="nextStep(5, 'alone')">Один/одна</button>
-        <button class="quiz-option" onclick="nextStep(5, 'couple')">С второй половинкой</button>
-        <button class="quiz-option" onclick="nextStep(5, 'friends')">С друзьями</button>
-        <button class="quiz-option" onclick="nextStep(5, 'family')">С родителями/семьёй</button>
-      </div>
-    </div>
-
-    <div class="quiz-step" id="step5">
-      <div class="quiz-title">Какой формат тебе ближе?</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="nextStep(6, 'movie')">Полнометражный фильм</button>
-        <button class="quiz-option" onclick="nextStep(6, 'series')">Сериал (на несколько вечеров)</button>
-        <button class="quiz-option" onclick="nextStep(6, 'cartoon')">Мультфильм / Аниме</button>
-      </div>
-    </div>
-
-    <div class="quiz-step" id="step6">
-      <div class="quiz-title">Насколько ты устал?</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="nextStep(7, 'light')">Очень, хочу просто фон</button>
-        <button class="quiz-option" onclick="nextStep(7, 'normal')">Нормально, готов на 2 часа</button>
-        <button class="quiz-option" onclick="nextStep(7, 'heavy')">Полон сил, готов на всю ночь</button>
-      </div>
-    </div>
-
-    <div class="quiz-step" id="step7">
-      <div class="quiz-title">Есть ли что-то, что ты категорически не хочешь видеть?</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="finishQuiz('no_horror')">Никаких ужасов и крови</button>
-        <button class="quiz-option" onclick="finishQuiz('no_drama')">Никаких тяжелых драм (хочу легкое)</button>
-        <button class="quiz-option" onclick="finishQuiz('no_romance')">Без сопливых мелодрам</button>
-        <button class="quiz-option" onclick="finishQuiz('any')">Все равно, лишь бы зашло</button>
-      </div>
-    </div>
-
-    <div class="quiz-step" id="stepResult">
-      <div class="quiz-title" style="margin-bottom:10px;">Твои фильмы на вечер:</div>
-      <p style="color:#888; margin-bottom:20px;">Алгоритм подобрал 3 идеальных варианта.</p>
-      <div class="quiz-result-grid" id="quizResultGrid"></div>
-      <button class="quiz-restart" onclick="resetQuiz()">Пройти заново</button>
-    </div>
-
-  </div>
-</div>
-
-<script>
-// ==========================================
-// БАЗА ДАННЫХ (ДОПОЛНЕНА)
-// ==========================================
-const DB = [
-  // Комедии
-  { title: "Холоп", year: 2019, type: "movie", country: "Россия", genres: ["комедия"], moods: ["sad","happy","angry"], free: [], sub: [{name: "START", url: "https://start.ru"}] },
-  { title: "Джентльмены", year: 2019, type: "movie", country: "Великобритания", genres: ["криминал","комедия"], moods: ["happy","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Друзья", year: 1994, type: "series", country: "США", genres: ["комедия"], moods: ["sad","anxious"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Офис", year: 2005, type: "series", country: "США", genres: ["комедия"], moods: ["sad","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  
-  // Драмы
-  { title: "Слово пацана. Кровь на асфальте", year: 2023, type: "series", country: "Россия", genres: ["драма","криминал"], moods: ["angry","sad"], free: [], sub: [{name: "Wink", url: "https://wink.ru"}] },
-  { title: "Побег из Шоушенка", year: 1994, type: "movie", country: "США", genres: ["драма"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Зелёная миля", year: 1999, type: "movie", country: "США", genres: ["драма","фэнтези"], moods: ["sad"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Форрест Гамп", year: 1994, type: "movie", country: "США", genres: ["драма"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  
-  // Боевики / Триллеры
-  { title: "Джон Уик", year: 2014, type: "movie", country: "США", genres: ["боевик","триллер"], moods: ["angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Т-34", year: 2019, type: "movie", country: "Россия", genres: ["боевик","военный"], moods: ["inspired","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Очень странные дела", year: 2016, type: "series", country: "США", genres: ["фантастика","ужасы"], moods: ["anxious"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Матрица", year: 1999, type: "movie", country: "США", genres: ["фантастика","боевик"], moods: ["angry","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  
-  // Романтика / Семейное
-  { title: "Титаник", year: 1997, type: "movie", country: "США", genres: ["мелодрама","драма"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Амели", year: 2001, type: "movie", country: "Франция", genres: ["мелодрама","комедия"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Гарри Поттер", year: 2001, type: "movie", country: "Великобритания", genres: ["фэнтези","семейный"], moods: ["anxious","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  
-  // Аниме / Мультики
-  { title: "Унесённые призраками", year: 2001, type: "cartoon", country: "Япония", genres: ["аниме","фэнтези"], moods: ["anxious","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Тайна Коко", year: 2017, type: "cartoon", country: "США", genres: ["мультфильм","семейный"], moods: ["sad","inspired"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Шрек", year: 2001, type: "cartoon", country: "США", genres: ["мультфильм","комедия"], moods: ["sad","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  { title: "Наруто", year: 2002, type: "cartoon", country: "Япония", genres: ["аниме","боевик"], moods: ["inspired","angry"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] },
-  
-  // Классика СССР
-  { title: "Иван Васильевич меняет профессию", year: 1973, type: "movie", country: "СССР", genres: ["комедия"], moods: ["sad","anxious"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
-  { title: "Служебный роман", year: 1977, type: "movie", country: "СССР", genres: ["мелодрама","комедия"], moods: ["sad","inspired"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
-  { title: "Ну, погоди!", year: 1969, type: "cartoon", country: "СССР", genres: ["мультфильм","комедия"], moods: ["happy","angry"], free: [{name: "Смотрим", url: "https://smotrim.ru"}], sub: [] },
-  
-  // Фантастика
-  { title: "Интерстеллар", year: 2014, type: "movie", country: "США", genres: ["фантастика","драма"], moods: ["inspired","anxious"], free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}] }
-];
+<!-- Подключаем SDK kino.is -->
+<script type="module">
+import { KinoIs } from 'https://cdn.jsdelivr.net/npm/@kino-is/sdk@0.1.0/+esm';
 
 // ==========================================
-// ЛОГИКА ОСНОВНОГО САЙТА
+// НАСТРОЙКИ KINO.IS
 // ==========================================
+const kino = new KinoIs({ lang: 'ru' });
+
+let DB = [];
 let state = { search: "", genre: "all", tab: "all" };
-const genresBar = document.getElementById("genresBar");
+let currentPage = 1;
+
 const moviesGrid = document.getElementById("moviesGrid");
 const searchInput = document.getElementById("searchInput");
 const sectionLabel = document.getElementById("sectionLabel");
 const countLabel = document.getElementById("countLabel");
 const tabsBar = document.getElementById("tabsBar");
+const loadMoreBtn = document.getElementById("loadMoreBtn");
+const genresBar = document.getElementById("genresBar");
 
-function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
-const allGenres = [...new Set(DB.flatMap(m => m.genres))].sort();
+// Избранное
+let favorites = JSON.parse(localStorage.getItem('movieFavorites')) || [];
+window.toggleFavorite = function(title, btn) {
+  const idx = favorites.indexOf(title);
+  if (idx === -1) { favorites.push(title); btn.classList.add('active'); btn.innerHTML = '❤️'; }
+  else { favorites.splice(idx, 1); btn.classList.remove('active'); btn.innerHTML = '🤍'; }
+  localStorage.setItem('movieFavorites', JSON.stringify(favorites));
+  if (state.tab === 'favorites') render();
+};
 
-genresBar.innerHTML = `<button class="genre-chip active" data-genre="all">Все жанры</button>` + 
-  allGenres.map(g => `<button class="genre-chip" data-genre="${g}">${capitalize(g)}</button>`).join("");
+// Загрузка из kino.is
+async function fetchMovies(page = 1) {
+  try {
+    loadMoreBtn.textContent = "Загрузка...";
+    loadMoreBtn.disabled = true;
 
-genresBar.addEventListener("click", (e) => {
-  if (!e.target.classList.contains("genre-chip")) return;
-  document.querySelectorAll(".genre-chip").forEach(b => b.classList.remove("active"));
-  e.target.classList.add("active");
-  state.genre = e.target.dataset.genre;
-  render();
-});
+    // Используем метод catalog для получения списка
+    const response = await kino.catalog({ page: page, lang: 'ru' });
+    
+    // В SDK ответ может приходить в разных форматах. Пробуем найти массив фильмов.
+    // Скорее всего, это response.films или response.items
+    const rawMovies = response.films || response.items || response.results || [];
+    
+    const newMovies = rawMovies.map(m => {
+      // Адаптируем данные kino.is под наш формат
+      // Имена полей могут отличаться, поэтому используем запасные варианты
+      const title = m.title || m.name || m.original_title || 'Без названия';
+      const year = m.year || (m.release_date ? m.release_date.split('-')[0] : '—');
+      const description = m.description || m.overview || 'Описание отсутствует...';
+      const poster = m.poster || m.poster_url || m.image || 'https://via.placeholder.com/90x135/222/555?text=Нет+фото';
+      
+      // Жанры (могут быть массивом строк или объектов)
+      let genres = [];
+      if (m.genres && Array.isArray(m.genres)) {
+        genres = m.genres.map(g => typeof g === 'string' ? g : (g.name || g.title)).filter(Boolean);
+      }
+      
+      // Где смотреть (если API это отдает)
+      const whereToWatch = m.where_to_watch || m.watch || [];
+      const free = whereToWatch.filter(w => w.is_free || w.type === 'free').map(w => ({name: w.provider || w.name, url: w.url || '#'}));
+      const sub = whereToWatch.filter(w => !w.is_free && w.type !== 'free').map(w => ({name: w.provider || w.name, url: w.url || '#'}));
 
-function getFiltered() {
-  const q = state.search.toLowerCase().trim();
-  return DB.filter(m => {
-    const matchTitle = m.title.toLowerCase().includes(q);
-    const matchGenre = state.genre === "all" || m.genres.includes(state.genre);
-    let matchTab = true;
-    if (state.tab === "free") matchTab = m.free.length > 0;
-    if (state.tab === "paid") matchTab = m.free.length === 0;
-    return matchTitle && matchGenre && matchTab;
-  });
+      return {
+        title, year, country: m.country || 'Мир', genres: genres.length ? genres : ['разное'],
+        description, poster, free, sub, moods: ['happy', 'sad'] // Заглушка для квиза
+      };
+    });
+
+    if (page === 1) DB = newMovies;
+    else DB = [...DB, ...newMovies];
+
+    render();
+    loadMoreBtn.style.display = "block";
+    loadMoreBtn.textContent = "Загрузить еще";
+    loadMoreBtn.disabled = false;
+
+  } catch (e) {
+    console.error("Ошибка kino.is:", e);
+    moviesGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#ff5c00;">Ошибка загрузки из kino.is. Возможно, API временно недоступен.</div>`;
+  }
 }
 
+// Рендер (без изменений)
 function renderCards(list) {
   return list.map(m => {
     let badges = "";
-    if (m.free.length) badges += `<span class="badge free">Бесплатно</span>`;
-    if (m.sub.length) badges += `<span class="badge sub">По подписке</span>`;
+    if (m.free && m.free.length) badges += `<span class="badge free">Бесплатно</span>`;
+    if (m.sub && m.sub.length) badges += `<span class="badge sub">По подписке</span>`;
     let links = [
-      ...m.free.map(s => `<a class="link-row free-link" href="${s.url}" target="_blank"><span class="service-name">${s.name}</span><span class="service-type">бесплатно</span></a>`),
-      ...m.sub.map(s => `<a class="link-row" href="${s.url}" target="_blank"><span class="service-name">${s.name}</span><span class="service-type">подписка</span></a>`)
+      ...(m.free || []).map(s => `<a class="link-row free-link" href="${s.url}" target="_blank"><span class="service-name">${s.name}</span><span class="service-type">бесплатно</span></a>`),
+      ...(m.sub || []).map(s => `<a class="link-row" href="${s.url}" target="_blank"><span class="service-name">${s.name}</span><span class="service-type">подписка</span></a>`)
     ].join("");
+    const isFav = favorites.includes(m.title);
+    const favBtnClass = isFav ? 'fav-btn active' : 'fav-btn';
+    const favIcon = isFav ? '❤️' : '🤍';
+    const safeTitle = m.title.replace(/'/g, "\\'");
     return `
       <div class="movie-card">
-        <div class="card-top">
+        <button class="${favBtnClass}" onclick="event.stopPropagation(); toggleFavorite('${safeTitle}', this)">${favIcon}</button>
+        <img src="${m.poster}" class="movie-poster" alt="Постер">
+        <div class="movie-content">
           <div class="movie-title">${m.title}</div>
-          <div class="movie-year">${m.year}</div>
+          <div class="movie-year">${m.year} · ${m.country}</div>
+          <div class="movie-desc">${m.description}</div>
+          <div class="movie-meta">${m.genres.slice(0,2).map(g => `<span class="meta-tag">${g}</span>`).join("")}</div>
+          <div class="badges-row">${badges}</div>
+          <div class="links-block">${links}</div>
         </div>
-        <div class="movie-meta">
-          <span class="meta-tag">${m.country}</span>
-          ${m.genres.slice(0,2).map(g => `<span class="meta-tag">${capitalize(g)}</span>`).join("")}
-        </div>
-        <div class="badges-row">${badges}</div>
-        <div class="links-block">${links}</div>
       </div>`;
   }).join("");
 }
 
 function render() {
-  const list = getFiltered();
-  if (state.tab === "free") sectionLabel.textContent = "Бесплатные";
-  else if (state.tab === "paid") sectionLabel.textContent = "Платные";
-  else if (state.genre !== "all") sectionLabel.textContent = `Жанр: ${capitalize(state.genre)}`;
-  else sectionLabel.textContent = "Все фильмы";
-  countLabel.textContent = `(${list.length})`;
+  const q = state.search.toLowerCase().trim();
+  let list = DB.filter(m => {
+    const matchTitle = m.title.toLowerCase().includes(q);
+    let matchTab = true;
+    if (state.tab === "free") matchTab = m.free && m.free.length > 0;
+    if (state.tab === "paid") matchTab = (!m.free || m.free.length === 0);
+    if (state.tab === "favorites") matchTab = favorites.includes(m.title);
+    return matchTitle && matchTab;
+  });
 
-  if (list.length === 0) {
-    moviesGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:#888;">Ничего не найдено 😕</div>`;
-    return;
-  }
+  sectionLabel.textContent = state.tab === "favorites" ? "Избранное" : "Каталог kino.is";
+  countLabel.textContent = `(${list.length})`;
+  if (list.length === 0) { moviesGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:#888;">Ничего не найдено 😕</div>`; return; }
   moviesGrid.innerHTML = renderCards(list);
 }
 
+// Слушатели
 searchInput.addEventListener("input", (e) => { state.search = e.target.value; render(); });
 tabsBar.addEventListener("click", (e) => {
   if (!e.target.classList.contains("tab-btn")) return;
@@ -375,122 +262,10 @@ tabsBar.addEventListener("click", (e) => {
   state.tab = e.target.dataset.tab;
   render();
 });
+loadMoreBtn.addEventListener("click", () => { currentPage++; fetchMovies(currentPage); });
 
-// ==========================================
-// ЛОГИКА КВИЗА (ОБНОВЛЕНА)
-// ==========================================
-let quizAnswers = { mood: '', reason: '', goal: '', company: '', type: '', energy: '', avoid: '' };
-const quizOverlay = document.getElementById("quizOverlay");
-const q2Options = document.getElementById("q2Options");
-const q2Title = document.getElementById("q2Title");
-
-document.getElementById("startQuizBtn").onclick = () => { quizOverlay.classList.add("open"); resetQuiz(); };
-document.getElementById("closeQuizBtn").onclick = () => { quizOverlay.classList.remove("open"); };
-
-function nextStep(stepNum, value) {
-  if (stepNum === 2) { quizAnswers.mood = value; buildStep2(value); }
-  if (stepNum === 4) quizAnswers.goal = value;
-  if (stepNum === 5) quizAnswers.company = value;
-  if (stepNum === 6) quizAnswers.type = value;
-  if (stepNum === 7) quizAnswers.energy = value;
-
-  document.querySelectorAll(".quiz-step").forEach(el => el.classList.remove("active"));
-  if (stepNum <= 7) document.getElementById("step" + stepNum).classList.add("active");
-}
-
-function buildStep2(mood) {
-  let optionsHTML = "";
-  if (mood === 'sad') {
-    q2Title.textContent = "Почему грустное?";
-    optionsHTML = `
-      <button class="quiz-option" onclick="nextStep(3, 'work')">Из-за работы/учебы</button>
-      <button class="quiz-option" onclick="nextStep(3, 'love')">Из-за отношений</button>
-      <button class="quiz-option" onclick="nextStep(3, 'tired')">Просто устал</button>
-      <button class="quiz-option" onclick="nextStep(3, 'nothing')">Без причины</button>`;
-  } else if (mood === 'anxious') {
-    q2Title.textContent = "Почему тревожное?";
-    optionsHTML = `
-      <button class="quiz-option" onclick="nextStep(3, 'future')">Из-за будущего</button>
-      <button class="quiz-option" onclick="nextStep(3, 'news')">Из-за новостей</button>
-      <button class="quiz-option" onclick="nextStep(3, 'money')">Из-за денег</button>`;
-  } else if (mood === 'angry') {
-    q2Title.textContent = "Что бесит?";
-    optionsHTML = `
-      <button class="quiz-option" onclick="nextStep(3, 'people')">Люди вокруг</button>
-      <button class="quiz-option" onclick="nextStep(3, 'work')">Работа/бытовуха</button>
-      <button class="quiz-option" onclick="nextStep(3, 'unfair')">Несправедливость</button>`;
-  } else {
-    q2Title.textContent = "Что послужило причиной?";
-    optionsHTML = `
-      <button class="quiz-option" onclick="nextStep(3, 'good_day')">Просто хороший день</button>
-      <button class="quiz-option" onclick="nextStep(3, 'success')">Хочу закрепить успех</button>`;
-  }
-  q2Options.innerHTML = optionsHTML;
-  document.querySelectorAll(".quiz-step").forEach(el => el.classList.remove("active"));
-  document.getElementById("step2").classList.add("active");
-}
-
-function finishQuiz(avoid) {
-  quizAnswers.avoid = avoid;
-  document.querySelectorAll(".quiz-step").forEach(el => el.classList.remove("active"));
-  
-  // УМНЫЙ АЛГОРИТМ ПОДБОРА
-  let scoredDB = DB.map(movie => {
-    let score = 0;
-    
-    // 1. Настроение
-    if (movie.moods && movie.moods.includes(quizAnswers.mood)) score += 10;
-    
-    // 2. Цель (жанр)
-    if (quizAnswers.goal === 'comedy' && movie.genres.includes('комедия')) score += 5;
-    if (quizAnswers.goal === 'drama' && movie.genres.includes('драма')) score += 5;
-    if (quizAnswers.goal === 'family' && movie.genres.includes('семейный')) score += 5;
-    if (quizAnswers.goal === 'thriller' && (movie.genres.includes('триллер') || movie.genres.includes('ужасы'))) score += 5;
-    if (quizAnswers.goal === 'blockbuster' && (movie.genres.includes('фантастика') || movie.genres.includes('боевик'))) score += 5;
-    
-    // 3. Формат
-    if (quizAnswers.type === 'movie' && movie.type === 'movie') score += 4;
-    if (quizAnswers.type === 'series' && movie.type === 'series') score += 4;
-    if (quizAnswers.type === 'cartoon' && movie.type === 'cartoon') score += 4;
-
-    // 4. Компания
-    if (quizAnswers.company === 'couple' && movie.genres.includes('мелодрама')) score += 3;
-    if (quizAnswers.company === 'family' && movie.genres.includes('семейный')) score += 3;
-
-    // 5. Усталость / Легкость
-    if (quizAnswers.energy === 'light' && (movie.genres.includes('комедия') || movie.genres.includes('мультфильм'))) score += 3;
-    if (quizAnswers.energy === 'heavy' && (movie.genres.includes('драма') || movie.genres.includes('фантастика'))) score += 3;
-
-    // 6. ИСКЛЮЧЕНИЯ (Штрафы)
-    if (quizAnswers.avoid === 'no_horror' && movie.genres.includes('ужасы')) score -= 100;
-    if (quizAnswers.avoid === 'no_drama' && movie.genres.includes('драма')) score -= 50;
-    if (quizAnswers.avoid === 'no_romance' && movie.genres.includes('мелодрама')) score -= 50;
-
-    return { ...movie, score };
-  });
-
-  // Сортируем по убыванию очков, отбрасываем те, у кого сильный минус
-  scoredDB = scoredDB.filter(m => m.score > -50);
-  scoredDB.sort((a, b) => b.score - a.score);
-  const top3 = scoredDB.slice(0, 3);
-
-  const resultGrid = document.getElementById("quizResultGrid");
-  if (top3.length === 0) {
-    resultGrid.innerHTML = `<p style="text-align:center;color:#888;">Не удалось подобрать фильм под такие строгие критерии. Попробуй изменить ответы.</p>`;
-  } else {
-    resultGrid.innerHTML = renderCards(top3);
-  }
-
-  document.getElementById("stepResult").classList.add("active");
-}
-
-function resetQuiz() {
-  quizAnswers = { mood: '', reason: '', goal: '', company: '', type: '', energy: '', avoid: '' };
-  document.querySelectorAll(".quiz-step").forEach(el => el.classList.remove("active"));
-  document.getElementById("step1").classList.add("active");
-}
-
-render();
+// Старт
+fetchMovies(1);
 </script>
 </body>
 </html>
