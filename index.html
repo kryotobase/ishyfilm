@@ -36,11 +36,6 @@
   .tab-btn:hover { border-color: #555; color: var(--text); }
   .tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-  .genres-bar { max-width: 1400px; margin: 0 auto; padding: 14px 24px 0; display: flex; gap: 8px; flex-wrap: wrap; max-height: 120px; overflow-y: auto; }
-  .genre-chip { padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 13px; cursor: pointer; transition: 0.2s; }
-  .genre-chip:hover { border-color: #555; color: var(--text); }
-  .genre-chip.active { background: var(--text); border-color: var(--text); color: #000; font-weight: 600; }
-
   .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
   .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
   .section-title { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
@@ -75,6 +70,9 @@
   .load-more-btn { display: block; width: 100%; max-width: 300px; margin: 30px auto; padding: 14px; background: var(--bg-card); border: 1px solid var(--border); color: #fff; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.2s; }
   .load-more-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+  .error-box { grid-column: 1/-1; text-align: center; padding: 40px; color: #ff5c00; background: #1a0000; border: 1px solid #ff3333; border-radius: 12px; margin: 20px; }
+  .error-box small { display: block; margin-top: 10px; color: #aaa; font-size: 12px; }
+
   @media (max-width: 640px) {
     .movies-grid { grid-template-columns: 1fr; }
     .logo-text { font-size: 16px; }
@@ -108,8 +106,6 @@
   <button class="tab-btn" data-tab="favorites">❤️ Избранное</button>
 </div>
 
-<div class="genres-bar" id="genresBar"></div>
-
 <main class="container">
   <div class="section-header">
     <div class="section-title">
@@ -123,17 +119,12 @@
   <button class="load-more-btn" id="loadMoreBtn" style="display:none;">Загрузить еще</button>
 </main>
 
-<!-- Подключаем SDK kino.is -->
-<script type="module">
-import { KinoIs } from 'https://cdn.jsdelivr.net/npm/@kino-is/sdk@0.1.0/+esm';
-
+<script>
 // ==========================================
-// НАСТРОЙКИ KINO.IS
+// НАСТРОЙКИ
 // ==========================================
-const kino = new KinoIs({ lang: 'ru' });
-
 let DB = [];
-let state = { search: "", genre: "all", tab: "all" };
+let state = { search: "", tab: "all" };
 let currentPage = 1;
 
 const moviesGrid = document.getElementById("moviesGrid");
@@ -142,53 +133,66 @@ const sectionLabel = document.getElementById("sectionLabel");
 const countLabel = document.getElementById("countLabel");
 const tabsBar = document.getElementById("tabsBar");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
-const genresBar = document.getElementById("genresBar");
 
 // Избранное
 let favorites = JSON.parse(localStorage.getItem('movieFavorites')) || [];
-window.toggleFavorite = function(title, btn) {
+function toggleFavorite(title, btn) {
   const idx = favorites.indexOf(title);
   if (idx === -1) { favorites.push(title); btn.classList.add('active'); btn.innerHTML = '❤️'; }
   else { favorites.splice(idx, 1); btn.classList.remove('active'); btn.innerHTML = '🤍'; }
   localStorage.setItem('movieFavorites', JSON.stringify(favorites));
   if (state.tab === 'favorites') render();
-};
+}
 
-// Загрузка из kino.is
+// ==========================================
+// ЗАГРУЗКА ИЗ KINO.IS (ЧЕРЕЗ ПРЯМОЙ FETCH)
+// ==========================================
 async function fetchMovies(page = 1) {
   try {
     loadMoreBtn.textContent = "Загрузка...";
     loadMoreBtn.disabled = true;
 
-    // Используем метод catalog для получения списка
-    const response = await kino.catalog({ page: page, lang: 'ru' });
+    // Прямой запрос к API kino.is для каталога
+    // Согласно документации, чтение открытое. Пробуем эндпоинт /api/catalog
+    const url = `https://kino.is/api/catalog?page=${page}&lang=ru`;
+    const response = await fetch(url);
     
-    // В SDK ответ может приходить в разных форматах. Пробуем найти массив фильмов.
-    // Скорее всего, это response.films или response.items
-    const rawMovies = response.films || response.items || response.results || [];
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
     
+    // Ищем массив фильмов в ответе (структура может быть разной)
+    // Если API возвращает объект с полем films, items или results
+    let rawMovies = data.films || data.items || data.results || [];
+    
+    // Если это массив напрямую
+    if (Array.isArray(data)) rawMovies = data;
+
+    if (rawMovies.length === 0) {
+      throw new Error("API вернул пустой список фильмов. Возможно, изменилась структура ответа.");
+    }
+
     const newMovies = rawMovies.map(m => {
-      // Адаптируем данные kino.is под наш формат
-      // Имена полей могут отличаться, поэтому используем запасные варианты
+      // Адаптация под разные варианты имен полей
       const title = m.title || m.name || m.original_title || 'Без названия';
       const year = m.year || (m.release_date ? m.release_date.split('-')[0] : '—');
-      const description = m.description || m.overview || 'Описание отсутствует...';
-      const poster = m.poster || m.poster_url || m.image || 'https://via.placeholder.com/90x135/222/555?text=Нет+фото';
+      const description = m.description || m.overview || m.synopsis || 'Описание отсутствует...';
+      const poster = m.poster || m.poster_url || m.image || (m.poster_path ? `https://image.tmdb.org/t/p/w200${m.poster_path}` : 'https://via.placeholder.com/90x135/222/555?text=Нет+фото');
       
-      // Жанры (могут быть массивом строк или объектов)
       let genres = [];
       if (m.genres && Array.isArray(m.genres)) {
         genres = m.genres.map(g => typeof g === 'string' ? g : (g.name || g.title)).filter(Boolean);
       }
-      
-      // Где смотреть (если API это отдает)
-      const whereToWatch = m.where_to_watch || m.watch || [];
-      const free = whereToWatch.filter(w => w.is_free || w.type === 'free').map(w => ({name: w.provider || w.name, url: w.url || '#'}));
-      const sub = whereToWatch.filter(w => !w.is_free && w.type !== 'free').map(w => ({name: w.provider || w.name, url: w.url || '#'}));
+      if (m.genre_ids && Array.isArray(m.genre_ids)) {
+        const GENRE_MAP = {28:"боевик",12:"приключения",16:"мультфильм",35:"комедия",80:"криминал",99:"документальный",18:"драма",10751:"семейный",14:"фэнтези",36:"история",27:"ужасы",10402:"музыка",9648:"детектив",10749:"мелодрама",878:"фантастика",53:"триллер",10752:"военный"};
+        genres = m.genre_ids.map(id => GENRE_MAP[id]).filter(Boolean);
+      }
 
       return {
         title, year, country: m.country || 'Мир', genres: genres.length ? genres : ['разное'],
-        description, poster, free, sub, moods: ['happy', 'sad'] // Заглушка для квиза
+        description, poster, free: [], sub: [{name: "Кинопоиск", url: "https://hd.kinopoisk.ru"}]
       };
     });
 
@@ -202,11 +206,14 @@ async function fetchMovies(page = 1) {
 
   } catch (e) {
     console.error("Ошибка kino.is:", e);
-    moviesGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#ff5c00;">Ошибка загрузки из kino.is. Возможно, API временно недоступен.</div>`;
+    moviesGrid.innerHTML = `<div class="error-box">Ошибка загрузки из kino.is<br><small>${e.message}</small><br><small style="margin-top:10px;color:#fff;">Попробуйте обновить страницу позже.</small></div>`;
+    loadMoreBtn.style.display = "none";
   }
 }
 
-// Рендер (без изменений)
+// ==========================================
+// РЕНДЕР
+// ==========================================
 function renderCards(list) {
   return list.map(m => {
     let badges = "";
@@ -223,7 +230,7 @@ function renderCards(list) {
     return `
       <div class="movie-card">
         <button class="${favBtnClass}" onclick="event.stopPropagation(); toggleFavorite('${safeTitle}', this)">${favIcon}</button>
-        <img src="${m.poster}" class="movie-poster" alt="Постер">
+        <img src="${m.poster}" class="movie-poster" alt="Постер" onerror="this.src='https://via.placeholder.com/90x135/222/555?text=Нет+фото'">
         <div class="movie-content">
           <div class="movie-title">${m.title}</div>
           <div class="movie-year">${m.year} · ${m.country}</div>
